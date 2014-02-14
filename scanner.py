@@ -7,26 +7,27 @@ class Scanner:
             "INT",
             "TYPE",
             "BOOLEAN",
-            "BYTE",
+            "BYTE",            
+            "STRING",
             "DIM",
             "AS",
             "ASSIGN",
             "SUB",
-            "ENDSUB",
+            "END SUB",
             "LPAR",
             "RPAR"
     )
 
     t_INT = "\d+"
     t_DOUBLE = r"-?\d+(\.\d+)?([e|E][+-]?\d+)?"
-    t_IDENTIFIER = r"[a-z]+"
-    t_TYPE = "Double|Integer|Boolean|Byte"
+    t_IDENTIFIER = r"\w+"
+    t_TYPE = "Double|Integer|Boolean|Byte|String"
     t_BOOLEAN = "True|False"
     t_DIM = "DIM"
     t_AS = "AS"
     t_ASSIGN = "="
     t_SUB = "SUB"
-    t_ENDSUB = "ENDSUB"
+    t_ENDSUB = "END SUB"
     t_LPAR = "\("
     t_RPAR = "\)"
     t_ignore = ' \t'
