@@ -7,7 +7,6 @@ class Scanner:
             "INT",
             "TYPE",
             "BOOLEAN",
-            "BYTE",
             "DIM",
             "AS",
             "ASSIGN",
@@ -18,7 +17,7 @@ class Scanner:
     )
 
     t_INT = "\d+"
-    t_DOUBLE = r"-?\d+(\.\d+)?([e|E][+-]?\d+)?"
+    t_DOUBLE = r"-?\d+\.\d+([e|E][+-]?\d+)?"
     t_IDENTIFIER = r"[a-z]+"
     t_TYPE = "Double|Integer|Boolean|Byte"
     t_BOOLEAN = "True|False"
@@ -30,12 +29,6 @@ class Scanner:
     t_LPAR = "\("
     t_RPAR = "\)"
     t_ignore = ' \t'
-    def t_BYTE(self, t):
-        '''\d{1,3}'''
-        i = int(t[0])
-        if (i > 255 or i < 0):
-            raise TypeError("%d: Value out of range for Byte %d. Byte range is 0-255." % (t.lineno, t.value,))
-        return t
 
 # Ignore comments
     def t_comment(self, t):
@@ -44,10 +37,20 @@ class Scanner:
 
     def t_newline(self, t):
         r"\n+"
-        t.lineno += t.value.count("\n")
+        t.lexer.lineno += len(t.value)
+        pass
 
     def t_error(self, t):
-        raise TypeError("%d: Unknown text '%s'" % (t.lineno,t.value,))
+        raise TypeError("%d:%d: Unknown text '%s'" % (t.lineno, find_column(self.text, t), t.value,))
 
     def build(self, outputdir = None, **kwargs):
         self.lexer = lex.lex(module=self, outputdir=outputdir, **kwargs)
+    # Compute column
+    #input is the input text string
+    #token is a token instance
+    def find_column(self,input,token):
+        last_cr = input.rfind('\n',0,token.lexpos)
+        if last_cr < 0:
+            last_cr = 0
+        column = (token.lexpos - last_cr) + 1
+        return column
