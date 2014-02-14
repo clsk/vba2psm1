@@ -11,9 +11,13 @@ class Scanner:
             "AS",
             "ASSIGN",
             "SUB",
-            "END SUB",
+            "ENDSUB",
             "LPAR",
-            "RPAR"
+            "RPAR",
+            "PLUS",
+            "MINUS",
+            "DIVIDE",
+            "MULTI" #Multiplicacion
     )
 
     t_INT = "\d+"
@@ -24,10 +28,14 @@ class Scanner:
     t_DIM = "DIM"
     t_AS = "AS"
     t_ASSIGN = "="
-    t_SUB = "SUB"
-    t_ENDSUB = "END SUB"
+    t_SUB = "Sub"
+    t_ENDSUB = "End Sub"
     t_LPAR = "\("
     t_RPAR = "\)"
+    t_PLUS = r"\+"
+    t_MINUS = r"\-"
+    t_DIVIDE = r"\/"
+    t_MULTI = r"\*"
     t_ignore = ' \t'
 
 # Ignore comments
