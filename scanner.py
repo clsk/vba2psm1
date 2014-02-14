@@ -31,6 +31,7 @@ class Scanner:
     t_LPAR = "\("
     t_RPAR = "\)"
     t_ignore = ' \t'
+    
     def t_BYTE(self, t):
         '''\d{1,3}'''
         i = int(t[0])
