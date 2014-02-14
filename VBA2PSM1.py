@@ -4,8 +4,9 @@ from parser import Parser
 outputdir = "bin/"
 parser = Parser(Scanner(), outputdir)
 parser.build("DIM a AS Integer\na = 3")
+#parser.build("a = 5")
 
-for k,v in Parser.identifiers.iteritems():
-    print k + ": " + repr(v)
-print len(Parser.identifiers)
+print "Identifiers(" + repr(len(parser.identifiers)) + ")"
+for k,v in parser.identifiers.iteritems():
+    print repr(v)
 
