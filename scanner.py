@@ -1,35 +1,39 @@
 import ply.lex as lex
 
 class Scanner:
-    tokens = (
+    reserved = {
+    "DIM": "DIM",
+    "AS": "AS",
+    "Sub": "SUB",
+    "End": "END",
+    "Double": "TYPE",
+    "Integer": "TYPE",
+    "Boolean": "TYPE",
+    "Byte": "TYPE",
+    "String": "TYPE",
+    "True": "BOOLEAN_LITERAL",
+    "False": "BOOLEAN_LITERAL"
+    }
+
+    tokens = [
             "DOUBLE",
             "IDENTIFIER",
             "INT",
             "TYPE",
             "BOOLEAN",
-            "DIM",
-            "AS",
             "ASSIGN",
-            "SUB",
-            "ENDSUB",
             "LPAR",
             "RPAR",
             "PLUS",
             "MINUS",
             "DIVIDE",
             "MULTI" #Multiplicacion
-    )
+    ] + list(reserved.values())
+
 
     t_INT = "\d+"
     t_DOUBLE = r"-?\d+\.\d+([e|E][+-]?\d+)?"
-    t_IDENTIFIER = r"\w+"
-    t_TYPE = "Double|Integer|Boolean|Byte|String"
-    t_BOOLEAN = "True|False"
-    t_DIM = "DIM"
-    t_AS = "AS"
     t_ASSIGN = "="
-    t_SUB = "Sub"
-    t_ENDSUB = "End Sub"
     t_LPAR = "\("
     t_RPAR = "\)"
     t_PLUS = r"\+"
@@ -37,6 +41,11 @@ class Scanner:
     t_DIVIDE = r"\/"
     t_MULTI = r"\*"
     t_ignore = ' \t'
+
+    def t_IDENTIFIER(self, t):
+        r"[a-zA-Z]+"
+        t.type = Scanner.reserved.get(t.value, "IDENTIFIER")
+        return t
 
 # Ignore comments
     def t_comment(self, t):

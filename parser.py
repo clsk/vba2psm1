@@ -16,15 +16,11 @@ class Parser:
     def p_statements(self, p):
         '''statements : statement
                       | statements statement'''
+
     def p_statement(self, p):
         '''statement : declaration
                      | assignment'''
         p[0] = p[1]
-
-    #def p_expression(self, p):
-        #'''expression : declaration
-                      #| assignment'''
-        #p[0] = p[1]
 
     def p_declaration(self, p):
         "declaration : DIM IDENTIFIER AS TYPE"
