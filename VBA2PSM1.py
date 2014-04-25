@@ -26,9 +26,11 @@ print "Identifiers(" + repr(len(parser.identifiers)) + ")"
 for k,v in parser.identifiers.iteritems():
     print repr(v)
 
+# Generate code and append to out string
+out = get_generator(node).generate()
 
-out = ""
-for statement in node.children:
-	out += get_generator(statement).generate()
-
-print out
+if (args.outfile is not None):
+	with open(args.outfile, "w") as of:
+		of.write(out)
+else:
+	print out

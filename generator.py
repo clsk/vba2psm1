@@ -38,9 +38,7 @@ class GeneratorBlock(Generator):
         out = ''
         for child in self.node.children:
             if child is not None:
-                out += get_generator(child).generate()
-                if child.t != Node.IF and child.t != Node.FUNC and child.t != Node.WHILE and child.t != Node.REPEAT and child.t != Node.FOR:
-                    out += ';\n'
+                out += get_generator(child).generate() + '\n'
         return out
 
 class GeneratorIdentifier(Generator):
@@ -110,7 +108,7 @@ class GeneratorIf(Generator):
     def generate(self):
         out = 'if ( ' + get_generator(self.node.children[0]).generate() + ' ) {\n' + GeneratorBlock(self.node.children[1]).generate() + '}\n'
         if self.ifelse:
-            out.insert(0, 'elseif ')
+            out.insert(0, 'else')
 
         if len(self.node.children) > 2:
             for i in range(2, len(self.node.children), 1):

@@ -2,39 +2,39 @@ import ply.lex as lex
 
 class Scanner:
     reserved = {
-    "Dim": "DIM",
-    "As": "AS",
-    "Sub": "SUB",
-    "End": "END",
-    "If": "IF",
-    "Then": "THEN",
-    "Else": "ELSE",
-    "For": "FOR",
-    "Each": "Each",
-    "Double": "TYPE",
-    "Integer": "TYPE",
-    "Boolean": "TYPE",
-    "Byte": "TYPE",
-    "String": "TYPE",
-    "Date": "TYPE",
-    "Currency": "TYPE",
-    "True": "BOOLEAN_LITERAL",
-    "False": "BOOLEAN_LITERAL"
+        "Dim": "DIM",
+        "As": "AS",
+        "Sub": "SUB",
+        "End": "END",
+        "If": "IF",
+        "Then": "THEN",
+        "Else": "ELSE",
+        "For": "FOR",
+        "Each": "Each",
+        "Double": "TYPE",
+        "Integer": "TYPE",
+        "Boolean": "TYPE",
+        "Byte": "TYPE",
+        "String": "TYPE",
+        "Date": "TYPE",
+        "Currency": "TYPE",
+        "True": "BOOLEAN_LITERAL",
+        "False": "BOOLEAN_LITERAL"
     }
 
     tokens = [
-            "DOUBLE",
-            "IDENTIFIER",
-            "INT",
-            "TYPE",
-            "BOOLEAN",
-            "ASSIGN",
-            "LPAR",
-            "RPAR",
-            "PLUS",
-            "MINUS",
-            "DIVIDE",
-            "MULTI" #Multiplicacion
+        "DOUBLE",
+        "IDENTIFIER",
+        "INT",
+        "TYPE",
+        "BOOLEAN",
+        "ASSIGN",
+        "LPAR",
+        "RPAR",
+        "PLUS",
+        "MINUS",
+        "DIVIDE",
+        "MULTI" #Multiplicacion
     ] + list(reserved.values())
 
 
