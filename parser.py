@@ -1,4 +1,5 @@
 import ply.yacc as yacc
+from node import *
 
 class Identifier:
     def __init__(self, t, name):
@@ -16,11 +17,14 @@ class Parser:
     def p_statements(self, p):
         '''statements : statement
                       | statements statement'''
+        pass
 
     def p_statement(self, p):
         '''statement : declaration
                      | assignment'''
         p[0] = p[1]
+        if (p[1] is not None):
+            self.get_current_block().children.append(p[1])
 
     def p_declaration(self, p):
         "declaration : DIM IDENTIFIER AS TYPE"
@@ -28,21 +32,26 @@ class Parser:
 
 
     def p_assignment(self, p):
-        '''assignment : IDENTIFIER ASSIGN BOOLEAN
-                      | IDENTIFIER ASSIGN DOUBLE
-                      | IDENTIFIER ASSIGN INT'''
+        '''assignment : IDENTIFIER ASSIGN const_literal'''
         id = self.identifiers.get(p[1], None)
         if (not id):
             raise TypeError("%d: Undeclared IDENTIFIER '%s'." % (p.lineno(1), p[1]))
 
-        if ((id.t == "Boolean" and p.slice[3].type != "BOOLEAN") or
-            (id.t == "Integer" and p.slice[3].type != "INT") or
-            (id.t == "Double" and p.slice[3].type == "BOOLEAN") or
-            (id.t == "Byte" and p.slice[3].type != "INT")):
+        if ((id.t == "Boolean" and p[3].type != "BOOLEAN") or
+            (id.t == "Integer" and p[3].type != "INT") or
+            (id.t == "Double" and p[3].type == "BOOLEAN") or
+            (id.t == "Byte" and p[3].type != "INT")):
             print("%d: Type mismatch. Trying to assign (%s) to identifier '%s' which is of type %s" % (p.lineno(3), p[3], p[1], p[3].type))
 
-        id.value = p[3]
+        id.value = p[3].literal
+        p[0] = NodeAssignment(id, p[3])
 
+
+    def p_const_literal(self, p):
+        '''const_literal : BOOLEAN
+                         | DOUBLE
+                         | INT'''
+        p[0] = NodeConstLiteral(p[1], p.slice[1].type)
 
     def p_error(self, p):
         if p:
@@ -56,9 +65,23 @@ class Parser:
         scanner.build(outputdir=outputdir)
         self.tokens = scanner.tokens
         self.identifiers = {}
+        self.block_stack = [NodeBlock([])]
+
+    def push_block(self):
+        self.block_stack.apend(NodeBlock())
+        return self.get_current_bloc()
+
+    def pop_block(self):
+        return self.block_stack.pop()
+
+    def get_current_block(self):
+        return self.block_stack[-1]
 
     def build(self, text):
         self.text = text
         self.scanner.text = text
         self.parser = yacc.yacc(module=self, outputdir=self.outputdir)
-        return self.parser.parse(input=text, lexer=self.scanner.lexer);
+        self.parser.parse(input=text, lexer=self.scanner.lexer);
+        return self.block_stack[0]
+
+

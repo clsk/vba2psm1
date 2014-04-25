@@ -2,15 +2,22 @@ import ply.lex as lex
 
 class Scanner:
     reserved = {
-    "DIM": "DIM",
-    "AS": "AS",
+    "Dim": "DIM",
+    "As": "AS",
     "Sub": "SUB",
     "End": "END",
+    "If": "IF",
+    "Then": "THEN",
+    "Else": "ELSE",
+    "For": "FOR",
+    "Each": "Each",
     "Double": "TYPE",
     "Integer": "TYPE",
     "Boolean": "TYPE",
     "Byte": "TYPE",
     "String": "TYPE",
+    "Date": "TYPE",
+    "Currency": "TYPE",
     "True": "BOOLEAN_LITERAL",
     "False": "BOOLEAN_LITERAL"
     }
