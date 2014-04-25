@@ -1,0 +1,15 @@
+Logical Line Grammar
+
+<module-body-logical-structure`> 			:: <extended-line>*
+<extended-line> 					:: (<line-continuation> | <non-line-termination-character>)* <line-terminator>
+<line-continuation> 					:: <WSC>* <underscore> <WSC>* <line-terminator>
+<WSC> 							:: (<tab-character> | <eom-character> | <space-character> | <DBCS-whitespace> <most-Unicode-class-Zs>)
+<tab-character> 					:: %x0009
+<eom-character> 					:: %x0019
+<space-character> 					:: %x0020
+<underscore> 						:: %x005F
+<DBCS-whitespace> 					:: %x3000
+<most-Unicode-class-Zs> 				:: <all members of Unicode class Zs which are not CP2-characters>
+
+<module-body-lines> 					:: <logical-line>*
+<logical-line> 						:: <LINE-START><extended-line>*<LINE-END>
